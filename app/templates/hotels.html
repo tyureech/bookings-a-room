@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    {% for hotel in hotels %}
+        <div class="hotel-card">
+            <img class="hotel-image" src="{{ url_for('static', path='/images/' + hotel.image_id|string + '.webp') }}">
+            <div class="hotel-details">
+                <h1 class="hotel-name">{{ hotel.name }}</h1>
+                <h4 class="hotel-location">{{ hotel.location }}</h4>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        
+        .hotel-card {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hotel-image {
+            width: 300px;
+            height: auto;
+            margin-right: 15px;
+        }
+        
+        .hotel-details {
+            flex: 1;
+        }
+        
+        .hotel-name {
+            font-size: 24px;
+            margin: 0 0 5px 0;
+        }
+        
+        .hotel-location {
+            font-size: 16px;
+            color: #666;
+            margin: 0;
+        }
+        
+        form {
+            margin: 10px;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        label {
+            font-weight: bold;
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+        
+        input[type="text"],
+        input[type="date"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            flex: 1;
+        }
+        
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        
+        main {
+
+            margin-left: 20%;
+            margin-right: 20%;
+
+        }
+        
+        header {
+            background-color: #35495e;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        header a{
+            text-decoration: none;
+            color: white;
+        }
+        
+        .auto {
+            display: flex;
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+<body>
+    <header><h3><a href="{{ request.base_url }}login">войти</a></h3></header>
+    <main> 
+        <form action="{{ request.url }}/hotels" method="get" target="_self">
+            <label for="location">Место: </label>
+            <input type="text" id="location" name="location" required>
+            <label for="date_from"> С: </label>
+            <input type="date" id="date_from" name="date_from" required>
+            <label for="date_to"> По: </label>
+            <input type="date" id="date_to" name="date_to" required>
+            <button type="submit">Найти</button>
+        </form>
+        {% block content %} 
+        {% endblock %}
+    </main>
+</body>
+</html>
+
