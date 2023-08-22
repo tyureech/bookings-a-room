@@ -40,9 +40,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 t = 1
+
+
 @app.on_event("startup")
 def startup():
-    redis = aioredis.from_url("redis://localhost", encoding="utf8", decode_responses=True)
+    redis = aioredis.from_url(
+        "redis://localhost", encoding="utf8", decode_responses=True
+    )
     FastAPICache.init(RedisBackend(redis), prefix="cache")
 
 

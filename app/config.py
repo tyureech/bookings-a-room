@@ -1,9 +1,9 @@
 from typing import Literal
 from pydantic_settings import BaseSettings
 
-class SettingsBD(BaseSettings):
 
-    MODE: Literal['PROD', 'DEV', 'TEST']
+class SettingsBD(BaseSettings):
+    MODE: Literal["PROD", "DEV", "TEST"]
 
     DB_HOST: str
     DB_PORT: int
@@ -16,7 +16,7 @@ class SettingsBD(BaseSettings):
         auth = f"{self.DB_USER}:{self.DB_PASS}"
         database = f"{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
         return f"postgresql+asyncpg://{auth}@{database}"
-    
+
     TEST_DB_HOST: str
     TEST_DB_PORT: int
     TEST_DB_USER: str
@@ -28,7 +28,7 @@ class SettingsBD(BaseSettings):
         auth = f"{self.TEST_DB_USER}:{self.TEST_DB_PASS}"
         database = f"{self.TEST_DB_HOST}:{self.TEST_DB_PORT}/{self.TEST_DB_NAME}"
         return f"postgresql+asyncpg://{auth}@{database}"
-    
+
     SALT: str
 
     SECRET_KEY: str
@@ -40,8 +40,8 @@ class SettingsBD(BaseSettings):
     SMPT_PASS: str
     SMPT_EMAIL: str
 
-
     class Config:
-        env_file = '.env'
+        env_file = ".env"
+
 
 settings = SettingsBD()

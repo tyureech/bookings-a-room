@@ -3,10 +3,10 @@ from sqlalchemy.orm import relationship
 
 from app.database import Base
 
+
 class Booking(Base):
-    
     __tablename__ = "bookings"
-    
+
     id = Column(Integer, primary_key=True)
     room_id = Column(ForeignKey("rooms.id"), nullable=False)
     user_id = Column(ForeignKey("users.id"), nullable=False)
@@ -20,4 +20,4 @@ class Booking(Base):
     room = relationship("Room", back_populates="booking")
 
     def __str__(self) -> str:
-        return f'booking #{self.id}'
+        return f"booking #{self.id}"

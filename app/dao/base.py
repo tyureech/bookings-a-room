@@ -2,8 +2,8 @@ from sqlalchemy import insert, select, delete
 
 from app.database import async_session_maker, engine
 
-class BaseDAO:
 
+class BaseDAO:
     model = None
 
     @classmethod
@@ -26,7 +26,7 @@ class BaseDAO:
             query = select(cls.model.__table__.columns).filter_by(**filter)
             result = await session.execute(query)
             return result.mappings().all()
-    
+
     @classmethod
     async def add(cls, **data):
         async with async_session_maker() as session:

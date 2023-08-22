@@ -12,11 +12,13 @@ async def test_base_get_by_id(id: int, res: int | None):
         assert data == res
 
 
-@pytest.mark.parametrize("name, res", [
-        ("Test1", "Test1"), 
-        ("Test2", "Test2"), 
+@pytest.mark.parametrize(
+    "name, res",
+    [
+        ("Test1", "Test1"),
+        ("Test2", "Test2"),
         ("...", None),
-    ]
+    ],
 )
 async def test_base_get_one_or_none(name: str, res: str | None):
     data = await TestBaseDAO.get_one_or_none(name=name)
@@ -26,12 +28,14 @@ async def test_base_get_one_or_none(name: str, res: str | None):
         assert data == res
 
 
-@pytest.mark.parametrize("filter, is_present", [
+@pytest.mark.parametrize(
+    "filter, is_present",
+    [
         ({"name": "Test1"}, True),
         ({"image_id": 1}, True),
         ({}, True),
         ({"image_id": 10}, False),
-    ]
+    ],
 )
 async def test_base_find_all(filter: dict, is_present: bool):
     data = await TestBaseDAO.find_all(**filter)
