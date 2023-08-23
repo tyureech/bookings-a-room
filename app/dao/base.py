@@ -1,6 +1,6 @@
-from sqlalchemy import insert, select, delete
+from sqlalchemy import delete, insert, select
 
-from app.database import async_session_maker, engine
+from app.database import async_session_maker
 
 
 class BaseDAO:
@@ -38,6 +38,5 @@ class BaseDAO:
     async def delete(cls, id: int):
         async with async_session_maker() as session:
             row = delete(cls.model).where(cls.model.id == id)
-            # print(row.compile(engine, compile_kwargs={"literal_binds": True}))
             await session.execute(row)
             await session.commit()
