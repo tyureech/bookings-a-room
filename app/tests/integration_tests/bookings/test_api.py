@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from httpx import AsyncClient
 import pytest
 
@@ -6,19 +6,20 @@ import pytest
 @pytest.mark.parametrize(
     "room_id, date_from, date_to, price, book_rooms, status_code",
     [
-        (4, date(2012, 12, 10), date(2012, 12, 19), 123, 1, 201),
-        (4, date(2012, 12, 19), date(2012, 12, 10), 123, 1, 400),
-        (4, date(2012, 12, 10), date(2012, 12, 19), 123, 2, 201),
-        (4, date(2012, 12, 10), date(2012, 12, 19), 123, 3, 201),
-        (4, date(2012, 12, 10), date(2012, 12, 19), 123, 4, 201),
-        (4, date(2012, 12, 10), date(2012, 12, 19), 123, 5, 201),
-        (4, date(2012, 12, 10), date(2012, 12, 19), 123, 5, 409),
+        (4, "2012-12-10", "2012-12-19", 123, 1, 201),
+        (4, "2012-12-19", "2012-12-10", 123, 1, 400),
+        (4, "2012-12-10", "2012-12-19", 123, 2, 201),
+        (4, "2012-12-10", "2012-12-19", 123, 3, 201),
+        (4, "2012-12-10", "2012-12-19", 123, 4, 201),
+        (4, "2012-12-10", "2012-12-19", 123, 5, 201),
+        (4, "2012-12-10", "2012-12-19", 123, 5, 409),
+        (0, "2012-12-10", "2012-12-19", 123, 5, 404),
     ],
 )
 async def test_add_and_get_user_bookings(
     room_id: int,
-    date_from: date,
-    date_to: date,
+    date_from: str,
+    date_to: str,
     price: int,
     book_rooms: int,
     status_code: int,
@@ -26,7 +27,7 @@ async def test_add_and_get_user_bookings(
 ):
     add_booking = await authenticated_ac.post(
         url="/bookings/add",
-        params={
+        json={
             "room_id": room_id,
             "date_from": date_from,
             "date_to": date_to,

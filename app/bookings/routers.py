@@ -1,12 +1,10 @@
-from datetime import date
 from fastapi import APIRouter, Depends, status
+
 from app.bookings.dao import BookingDAO
-from app.exceptions import RoomFullyBooked
+from app.bookings.schemas import SBookings
 from app.tasks.tasks import send_mail
 from app.users.dependencies import get_current_user
-from app.bookings.schemas import SBookings
 from app.users.models import User
-
 
 router = APIRouter(prefix="/bookings", tags=["Бронирования"])
 
@@ -19,21 +17,17 @@ async def get_user_bookings(user: User = Depends(get_current_user)):
 
 @router.post("/add", status_code=status.HTTP_201_CREATED)
 async def add_bookings(
-    room_id: int,
-    date_from: date,
-    date_to: date,
-    price: int | None,
+    new_booking: SBookings,
     user: User = Depends(get_current_user),
 ):
-    bookings = await BookingDAO.add(room_id, date_from, date_to, price, user.id)
-    if bookings:
-        send_mail.delay(
-            to_emails=[user.email],
-            subject="Бронирование номера",
-            message=f"<h1>Вы забронировали номер с {bookings.date_from} до {bookings.date_to}.<h1>",
-        )
-        return bookings
-    raise RoomFullyBooked
+    booking = await BookingDAO.add(new_booking, user.id)
+    send_mail.delay(
+        to_emails=[user.email],
+        subject="Бронирование номера",
+        message=f"<h1>Вы забронировали номер \
+            с {booking.date_from} до {booking.date_to}.<h1>",
+    )
+    return booking
 
 
 @router.get("")
