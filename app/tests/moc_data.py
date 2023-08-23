@@ -1,6 +1,5 @@
 from datetime import datetime
 
-
 MOC_DATA_USERS = [
     {"email": "user@example.com", "hashed_password": "qwertty"},
     {"email": "test@test.com", "hashed_password": "12345"},

@@ -1,24 +1,20 @@
 import asyncio
-import pytest
-from sqlalchemy import insert
-from httpx import AsyncClient
 
-from app.main import app
+import pytest
+from httpx import AsyncClient
+from sqlalchemy import insert
+
+from app.bookings.models import Booking
 from app.config import settings
-from app.users.models import User
+from app.database import Base, async_session_maker, engine
 from app.hotels.models import Hotel
 from app.hotels.rooms.models import Room
-from app.bookings.models import Booking
+from app.main import app
+from app.tests.moc_data import (MOC_DATA_BOKINGS, MOC_DATA_HOTELS,
+                                MOC_DATA_ROOMS, MOC_DATA_TEST_MODEL,
+                                MOC_DATA_USERS)
 from app.tests.models import TestModel
-from app.database import Base, engine, async_session_maker
-
-from app.tests.moc_data import (
-    MOC_DATA_USERS,
-    MOC_DATA_HOTELS,
-    MOC_DATA_ROOMS,
-    MOC_DATA_BOKINGS,
-    MOC_DATA_TEST_MODEL,
-)
+from app.users.models import User
 
 
 @pytest.fixture(scope="session", autouse=True)
