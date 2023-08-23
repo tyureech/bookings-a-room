@@ -1,16 +1,15 @@
 from datetime import timedelta
+
 from fastapi import APIRouter, Response
 from fastapi.responses import JSONResponse
+
 from app.exceptions import (
-    IncorrectEmailOrPasswordException,
     PasswordsDonNotMatchException,
     UserEmailAlreadyExistsException,
 )
 from app.users.auth import auth_login, create_access_token, get_password_hash
 from app.users.dao import UserDAO
-
-from app.users.schemas import SRegister, SLogin
-
+from app.users.schemas import SLogin, SRegister
 
 router = APIRouter(prefix="/users", tags=["Пользователи"])
 
@@ -28,10 +27,8 @@ async def register_user(user: SRegister):
 
 @router.post("/login")
 async def login_user(user_data: SLogin) -> JSONResponse:
-    existing_user = await auth_login(user_data.email, user_data.password)
-    if not existing_user:
-        raise IncorrectEmailOrPasswordException
-    data = {"id": existing_user["id"]}
+    user = await auth_login(user_data.email, user_data.password)
+    data = {"id": user["id"]}
     jwt_token = create_access_token(data=data, expires_delta=timedelta(minutes=30))
     responce = JSONResponse({"access_token": jwt_token})
     responce.set_cookie(key="access_token", value=jwt_token, httponly=True)

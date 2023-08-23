@@ -1,11 +1,11 @@
-import asyncio
 from datetime import datetime, timedelta
-from hashlib import sha256
-from passlib.context import CryptContext
-from jose import jwt
 
-from app.users.dao import UserDAO
+from jose import jwt
+from passlib.context import CryptContext
+
 from app.config import settings
+from app.exceptions import IncorrectEmailOrPasswordException
+from app.users.dao import UserDAO
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -26,6 +26,7 @@ async def auth_login(email: str, password: str):
         and verify_password(password, existing_user.hashed_password)
     ):
         return existing_user
+    raise IncorrectEmailOrPasswordException
 
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
