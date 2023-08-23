@@ -1,20 +1,19 @@
-from fastapi import FastAPI, Query, Depends
-from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
-from sqladmin import Admin, ModelView
-from app.admin.views import BookingAdmin, HotelAdmin, RoomAdmin, UserAdmin
+from sqladmin import Admin
 
+from app.admin.views import BookingAdmin, HotelAdmin, RoomAdmin, UserAdmin
 from app.database import engine
 from app.bookings.routers import router as router_booking
-from app.hotels.routers import router as router_hotel
-from app.users.models import User
-from app.users.routers import router as user_router
 from app.hotels.rooms.routers import router as router_rooms
-from app.pages.routers import router as router_pages
+from app.hotels.routers import router as router_hotel
 from app.images.routers import router as router_images
+from app.pages.routers import router as router_pages
+from app.users.routers import router as user_router
 
 app = FastAPI()
 
@@ -39,7 +38,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-t = 1
 
 
 @app.on_event("startup")
