@@ -1,15 +1,17 @@
+import sentry_sdk
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi_versioning import VersionedFastAPI
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from fastapi_versioning import VersionedFastAPI
 from redis import asyncio as aioredis
 from sqladmin import Admin
 
 from app.admin.views import BookingAdmin, HotelAdmin, RoomAdmin, UserAdmin
-from app.database import engine
 from app.bookings.routers import router as router_booking
+from app.config import settings
+from app.database import engine
 from app.hotels.rooms.routers import router as router_rooms
 from app.hotels.routers import router as router_hotel
 from app.images.routers import router as router_images
@@ -62,3 +64,9 @@ admin.add_view(BookingAdmin)
 
 
 app.mount("/app/static", StaticFiles(directory="app/static"), name="static")
+
+
+sentry_sdk.init(
+    dsn=settings.SENTRY_DSN,
+    traces_sample_rate=1.0,
+)

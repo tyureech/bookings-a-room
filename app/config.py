@@ -41,6 +41,8 @@ class SettingsBD(BaseSettings):
     SMPT_PASS: str
     SMPT_EMAIL: str
 
+    SENTRY_DSN:str
+
     class Config:
         env_file = ".env"
 
