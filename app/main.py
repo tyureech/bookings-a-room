@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi_versioning import VersionedFastAPI
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
@@ -16,8 +17,6 @@ from app.pages.routers import router as router_pages
 from app.users.routers import router as user_router
 
 app = FastAPI()
-
-app.mount("/app/static", StaticFiles(directory="app/static"), name="static")
 
 app.include_router(user_router)
 app.include_router(router_booking)
@@ -48,9 +47,18 @@ def startup():
     FastAPICache.init(RedisBackend(redis), prefix="cache")
 
 
+app = VersionedFastAPI(app,
+    version_format='{major}',
+    prefix_format='/v{major}',
+)
+
+
 admin = Admin(app, engine)
 
 admin.add_view(UserAdmin)
 admin.add_view(HotelAdmin)
 admin.add_view(RoomAdmin)
 admin.add_view(BookingAdmin)
+
+
+app.mount("/app/static", StaticFiles(directory="app/static"), name="static")

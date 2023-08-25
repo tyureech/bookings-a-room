@@ -109,9 +109,9 @@
     </style>
 </head>
 <body>
-    <header><h3><a href="{{ request.base_url }}login">войти</a></h3></header>
+    <header><h3><a href="{{ request.base_url }}v1/page/login">войти</a></h3></header>
     <main> 
-        <form action="{{ request.url }}/hotels" method="get" target="_self">
+        <form action="{{ request.base_url }}v1/page/hotels" method="get" target="_self">
             <label for="location">Место: </label>
             <input type="text" id="location" name="location" required>
             <label for="date_from"> С: </label>

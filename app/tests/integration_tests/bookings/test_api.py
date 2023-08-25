@@ -25,7 +25,7 @@ async def test_add_and_get_user_bookings(
     authenticated_ac: AsyncClient,
 ):
     add_booking = await authenticated_ac.post(
-        url="/bookings/add",
+        url="v1/bookings/add",
         json={
             "room_id": room_id,
             "date_from": date_from,
@@ -35,19 +35,19 @@ async def test_add_and_get_user_bookings(
     )
     assert add_booking.status_code == status_code
 
-    user_bookings = await authenticated_ac.get(url="/bookings/user")
+    user_bookings = await authenticated_ac.get(url="v1/bookings/user")
     count_bookings = len(user_bookings.json())
     assert count_bookings == book_rooms
 
 
 async def test_get_and_delete_all_bookings(authenticated_ac: AsyncClient):
-    all_bookings = await authenticated_ac.get(url="/bookings")
+    all_bookings = await authenticated_ac.get(url="v1/bookings")
     assert all_bookings.status_code == 200
 
     count = len(all_bookings.json())
     for sequence_number in range(1, count + 1):
-        res = await authenticated_ac.delete(f"/bookings/{sequence_number}")
+        res = await authenticated_ac.delete(f"v1/bookings/{sequence_number}")
         res.status_code == 204
 
-    all_bookings = await authenticated_ac.get(url="/bookings")
+    all_bookings = await authenticated_ac.get(url="v1/bookings")
     assert len(all_bookings.json()) == 0

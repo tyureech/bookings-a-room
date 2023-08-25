@@ -14,7 +14,7 @@ async def test_register_user(
     email: str, password_1: str, password_2: str, code: int, ac: AsyncClient
 ):
     response = await ac.post(
-        "/users/register",
+        "v1/users/register",
         json={"email": email, "password1": password_1, "password2": password_2},
     )
 
@@ -31,7 +31,7 @@ async def test_register_user(
 )
 async def test_login_user(email, password, code, is_token, ac: AsyncClient):
     response = await ac.post(
-        "/users/login",
+        "v1/users/login",
         json={
             "email": email,
             "password": password,
@@ -43,6 +43,6 @@ async def test_login_user(email, password, code, is_token, ac: AsyncClient):
 
 async def test_logout_user(authenticated_ac: AsyncClient):
     assert authenticated_ac.cookies.get("access_token")
-    responce = await authenticated_ac.post("/users/logout")
+    responce = await authenticated_ac.post("v1/users/logout")
     assert not authenticated_ac.cookies.get("access_token")
     assert not responce.cookies.get("access_token")

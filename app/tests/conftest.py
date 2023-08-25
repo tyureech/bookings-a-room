@@ -58,6 +58,6 @@ async def ac():
 async def authenticated_ac():
     async with AsyncClient(app=app, base_url="http://test") as ac:
         await ac.post(
-            "/users/login", json={"email": "tyureech@yandex.ru", "password": "string"}
+            "v1/users/login", json={"email": "tyureech@yandex.ru", "password": "string"}
         )
         yield ac
