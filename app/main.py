@@ -1,11 +1,9 @@
 import sentry_sdk
+from cashews import cache
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi_cache import FastAPICache
-from fastapi_cache.backends.redis import RedisBackend
 from fastapi_versioning import VersionedFastAPI
-from redis import asyncio as aioredis
 from sqladmin import Admin
 
 from app.admin.views import BookingAdmin, HotelAdmin, RoomAdmin, UserAdmin
@@ -41,12 +39,7 @@ app.add_middleware(
 )
 
 
-@app.on_event("startup")
-def startup():
-    redis = aioredis.from_url(
-        "redis://localhost", encoding="utf8", decode_responses=True
-    )
-    FastAPICache.init(RedisBackend(redis), prefix="cache")
+cache.setup("redis://localhost")
 
 
 app = VersionedFastAPI(app,

@@ -13,6 +13,7 @@ attrs==23.1.0
 backcall==0.2.0
 bcrypt==4.0.1
 billiard==4.1.0
+cashews==6.2.0
 celery==5.3.1
 certifi==2023.7.22
 cffi==1.15.1
@@ -30,7 +31,6 @@ ecdsa==0.18.0
 email-validator==2.0.0.post2
 executing==1.2.0
 fastapi==0.100.0
-fastapi-cache2==0.2.1
 fastapi-versioning==0.10.0
 frozenlist==1.4.0
 greenlet==2.0.2
