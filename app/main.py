@@ -39,7 +39,7 @@ app.add_middleware(
 )
 
 
-cache.setup("redis://localhost")
+cache.setup(f"redis://{settings.REDIS_HOST}")
 
 
 app = VersionedFastAPI(app,

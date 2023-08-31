@@ -43,6 +43,8 @@ class SettingsBD(BaseSettings):
 
     SENTRY_DSN:str
 
+    REDIS_HOST: str
+
     class Config:
         env_file = ".env"
 
